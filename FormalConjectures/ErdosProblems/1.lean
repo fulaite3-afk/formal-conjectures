@@ -153,3 +153,81 @@ theorem erdos_1.variants.least_N_9 :
   sorry
 
 end Erdos1
+\documentclass{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{关于子集和互不相同的集合的大小上界}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+设 \( N \) 为正整数，\( A \subseteq \{1,2,\dots,N\} \) 满足：对任意两个不同子集 \( S, T \subseteq A \)，其元素和 \(\sum_{a \in S} a\) 与 \(\sum_{a \in T} a\) 互不相同。记 \( k = |A| \)，则以下结论成立：
+
+\begin{enumerate}
+    \item \( k \leq \log_2 N + 1 \)。
+    \item 进一步地，\( k \leq \log_2 N + \log_2 \log_2 N + O(1) \)。
+\end{enumerate}
+
+\begin{proof}
+设 \( A = \{a_1, a_2, \dots, a_k\} \)，其中 \( 1 \leq a_1 < a_2 < \dots < a_k \leq N \)。令 \( S_i = a_1 + a_2 + \dots + a_i \)（\( 1 \leq i \leq k \)）。
+
+考虑前 \( i \) 个元素 \( a_1, \dots, a_i \) 的所有子集。这些子集的和互不相同（因为 \( A \) 的任意子集和互异），并且每个和都是区间 \([0, S_i]\) 中的整数。不同和的个数为 \( 2^i \)，而区间 \([0, S_i]\) 中至多有 \( S_i + 1 \) 个整数，因此
+\[
+2^i \leq S_i + 1 \qquad (1 \leq i \leq k).
+\]
+
+由式 (1) 出发，用归纳法证明
+\[
+a_i \geq 2^{i-1} \quad (1 \leq i \leq k).
+\]
+当 \( i = 1 \) 时，由 \( 2 \leq S_1 + 1 = a_1 + 1 \) 得 \( a_1 \geq 1 = 2^{0} \)。假设对 \( j < i \) 结论成立，则
+\[
+S_{i-1} = a_1 + \dots + a_{i-1} \geq 1 + 2 + \dots + 2^{i-2} = 2^{i-1} - 1.
+\]
+代入 (1) 有
+\[
+2^i \leq S_i + 1 = S_{i-1} + a_i + 1 \geq (2^{i-1} - 1) + a_i + 1 = 2^{i-1} + a_i,
+\]
+从而 \( a_i \geq 2^{i-1} \)。归纳完成。
+
+取 \( i = k \) 得 \( a_k \geq 2^{k-1} \)。又 \( a_k \leq N \)，故
+\[
+2^{k-1} \leq N,
+\]
+即
+\[
+k \leq \log_2 N + 1.
+\]
+这就证明了第一个结论。
+
+为了得到更精细的上界，利用 \( a_i \geq 2^{i-1} \) 可得
+\[
+S_k \geq 1 + 2 + \dots + 2^{k-1} = 2^k - 1.
+\]
+另一方面，显然 \( S_k \leq k N \)。于是
+\[
+2^k - 1 \leq k N \quad \Longrightarrow \quad 2^k \leq k N + 1.
+\]
+两边取以 2 为底的对数：
+\[
+k \leq \log_2 (k N + 1) = \log_2 k + \log_2 N + O\left(\frac{1}{k N}\right).
+\]
+由此可得
+\[
+k - \log_2 k \leq \log_2 N + O(1).
+\]
+设 \( n = \log_2 N \)，则当 \( N \) 充分大时，\( k \leq n + \log_2 n + O(1) \)，即
+\[
+k \leq \log_2 N + \log_2 \log_2 N + O(1).
+\]
+第二个结论得证。
+\end{proof}
+
+上述结果表明，具有互异子集和的集合 \( A \) 的大小至多是 \( N \) 的对数量级。当 \( A \) 取形如 \(\{1,2,4,\dots,2^{k-1}\}\) 的集合时，\( N \geq 2^{k-1} \)，且所有子集和互异，此时 \( k = \lfloor \log_2 N \rfloor + 1 \)，说明上界 \( \log_2 N + 1 \) 是最优的。
+
+\end{document}
